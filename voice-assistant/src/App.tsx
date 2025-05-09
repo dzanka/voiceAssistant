@@ -1,7 +1,7 @@
 import logo from './logo.svg'
 import './App.css'
 import { AudioRecorder } from 'react-audio-voice-recorder'
-// import { AudioRecorder } from 'react-audio-voice-recorder'
+import useWebSocket from 'react-use-websocket'
 
 const App = () => {
   const addAudioElement = (blob: Blob) => {
@@ -11,6 +11,15 @@ const App = () => {
     audio.controls = true
     document.body.appendChild(audio)
   }
+
+  const socketUrl = 'ws://localhost:8080'
+
+  const { sendMessage, sendJsonMessage, lastMessage, lastJsonMessage, readyState, getWebSocket } =
+    useWebSocket(socketUrl, {
+      onOpen: () => console.log('opened'),
+      //Will attempt to reconnect on all close events, such as server shutting down
+      shouldReconnect: (closeEvent) => true,
+    })
 
   return (
     <div className="App">
