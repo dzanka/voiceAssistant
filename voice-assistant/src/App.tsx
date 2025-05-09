@@ -1,8 +1,17 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import logo from './logo.svg'
+import './App.css'
+import { AudioRecorder } from 'react-audio-voice-recorder'
+// import { AudioRecorder } from 'react-audio-voice-recorder'
 
-function App() {
+const App = () => {
+  const addAudioElement = (blob: Blob) => {
+    const url = URL.createObjectURL(blob)
+    const audio = document.createElement('audio')
+    audio.src = url
+    audio.controls = true
+    document.body.appendChild(audio)
+  }
+
   return (
     <div className="App">
       <header className="App-header">
@@ -19,8 +28,30 @@ function App() {
           Learn React
         </a>
       </header>
+      <div>
+        <AudioRecorder
+          onRecordingComplete={addAudioElement}
+          audioTrackConstraints={{
+            noiseSuppression: true,
+            echoCancellation: true,
+            // autoGainControl,
+            // channelCount,
+            // deviceId,
+            // groupId,
+            // sampleRate,
+            // sampleSize,
+          }}
+          // onNotAllowedOrFound={(err: DOMException) => console.table(err)}
+          // downloadOnSavePress={true}
+          // downloadFileExtension="webm"
+          // mediaRecorderOptions={{
+          //   audioBitsPerSecond: 128000,
+          // }}
+          // showVisualizer={true}
+        />
+      </div>
     </div>
-  );
+  )
 }
 
-export default App;
+export default App
