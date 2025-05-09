@@ -1,2 +1,2 @@
 # voiceAssistant
-Front end application for voice assistant
+React application for voice assistant
