@@ -1,9 +1,15 @@
 import { Button } from '@mui/material'
 import VoiceAsistant from './VoiceAssistant/VoiceAssistant'
-import { useState } from 'react'
+import { useContext } from 'react'
+import { GeneralContext } from '../context/GeneralContext'
 
 const Layout = () => {
-  const [isVoiceAssistantOpen, setIsVoiceAssistantOpen] = useState(false)
+  const generalContext = useContext(GeneralContext)
+  if (!generalContext) {
+    throw new Error('GeneralContext must be used within a GeneralProvider')
+  }
+
+  const { isVoiceAssistantOpen, setIsVoiceAssistantOpen } = generalContext
 
   const handleOpenVoiceAssistant = () => {
     setIsVoiceAssistantOpen(true)

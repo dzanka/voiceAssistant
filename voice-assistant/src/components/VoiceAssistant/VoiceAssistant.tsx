@@ -5,12 +5,6 @@ import useVoiceAssistantWebsocket from './useVoiceAssistantWebsocket'
 import { convertToWav } from './utils'
 
 const VoiceAsistant = () => {
-  // const { sendMessage, sendJsonMessage, lastMessage, lastJsonMessage, readyState, getWebSocket } =
-  //   useWebSocket(websocketUrl, {
-  //     onOpen: () => console.log('opened'),
-  //     //Will attempt to reconnect on all close events, such as server shutting down
-  //     shouldReconnect: (closeEvent) => true,
-  //   })
   const { sendMessage, lastMessage } = useVoiceAssistantWebsocket()
 
   const recorderControls = useAudioRecorder()
@@ -30,7 +24,6 @@ const VoiceAsistant = () => {
 
   useEffect(() => {
     if (!lastMessage) return
-    console.log('received message', lastMessage)
     const audio = document.createElement('audio')
     const url = URL.createObjectURL(lastMessage.data)
     audio.src = url
