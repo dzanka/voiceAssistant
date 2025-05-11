@@ -2,8 +2,17 @@ import logo from './logo.svg'
 import './App.css'
 import { AudioRecorder } from 'react-audio-voice-recorder'
 import useWebSocket from 'react-use-websocket'
+import { useAppSelector } from './redux/hooks'
+
+interface RootState {
+  isOn: boolean
+}
 
 const App = () => {
+  // TS infers type: (state: RootState) => boolean
+  const isOn = useAppSelector((state: RootState) => state.isOn)
+  console.log('isOn', isOn)
+
   const addAudioElement = (blob: Blob) => {
     const url = URL.createObjectURL(blob)
     const audio = document.createElement('audio')
