@@ -1,16 +1,17 @@
 import { useEffect } from 'react'
 import { AudioRecorder, useAudioRecorder } from 'react-audio-voice-recorder'
-import useWebSocket from 'react-use-websocket'
+import Player from '../basics/Player'
+import useVoiceAssistantWebsocket from './useVoiceAssistantWebsocket'
+import { convertToWav } from './utils'
 
 const VoiceAsistant = () => {
-  const websocketUrl = process.env.REACT_APP_WEBSOCKET || 'ws://localhost:8080'
-
-  const { sendMessage, sendJsonMessage, lastMessage, lastJsonMessage, readyState, getWebSocket } =
-    useWebSocket(websocketUrl, {
-      onOpen: () => console.log('opened'),
-      //Will attempt to reconnect on all close events, such as server shutting down
-      shouldReconnect: (closeEvent) => true,
-    })
+  // const { sendMessage, sendJsonMessage, lastMessage, lastJsonMessage, readyState, getWebSocket } =
+  //   useWebSocket(websocketUrl, {
+  //     onOpen: () => console.log('opened'),
+  //     //Will attempt to reconnect on all close events, such as server shutting down
+  //     shouldReconnect: (closeEvent) => true,
+  //   })
+  const { sendMessage, lastMessage } = useVoiceAssistantWebsocket()
 
   const recorderControls = useAudioRecorder()
   const addAudioElement = (blob: Blob) => {
@@ -21,10 +22,6 @@ const VoiceAsistant = () => {
     document.body.appendChild(audio)
   }
 
-  const convertToWav = (blob: Blob) => {
-    // conversion needed due to cross-origin policy in v2, could be solved https://web.dev/articles/coop-coep
-    return blob.type !== 'audio/wav' ? new Blob([blob], { type: 'audio/wav' }) : blob
-  }
   const handleRecordingComplete = (blob: Blob) => {
     const wavBlob = convertToWav(blob)
     addAudioElement(wavBlob)
@@ -48,6 +45,7 @@ const VoiceAsistant = () => {
         onRecordingComplete={(blob) => handleRecordingComplete(blob)}
         recorderControls={recorderControls}
       />
+      <Player />
       <button onClick={recorderControls.stopRecording}>Stop recording</button>
     </div>
   )

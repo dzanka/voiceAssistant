@@ -1,11 +1,7 @@
-import VoiceAsistant from './components/VoiceAssistant/VoiceAssistant'
+import Layout from './components/Layout'
 
 const App = () => {
-  return (
-    <div>
-      <VoiceAsistant />
-    </div>
-  )
+  return <Layout />
 }
 
 export default App
