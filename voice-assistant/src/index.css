@@ -5,6 +5,13 @@
   font-style: normal;
 }
 
+@font-face {
+  font-family: 'Gilroy';
+  src: url('/src/assets/fonts/gilroy-bold/Gilroy-Light.woff') format('woff');
+  font-weight: normal;
+  font-style: normal;
+}
+
 body {
   margin: 0;
   background: #F9EBFA;
@@ -13,6 +20,11 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+p {
+  font-family: 'Gilroy', sans-serif !important;
+  font-weight: 600;
 }
 
 @tailwind base;
@@ -26,5 +38,9 @@ body {
 
   .bg-default{
     @apply bg-nude-light;
+  }
+
+  .font-bold{
+    @apply font-[Gilroy-Bold] font-normal
   }
 }

@@ -17,7 +17,7 @@ const Header = () => {
 
   return (
     <div className="flex justify-center items-center h-[186px]">
-      <div className="w-[962px] flex space-between">
+      <div className="flex justify-between w-[962px] items-center">
         <Menu />
         <Button
           variant="primary"
