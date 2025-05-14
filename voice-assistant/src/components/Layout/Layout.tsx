@@ -1,9 +1,9 @@
-import VoiceAsistant from '../VoiceAssistant/VoiceAssistant'
 import { useContext } from 'react'
 import { GeneralContext } from '../../context/GeneralContext'
 import Header from './Header'
 import Footer from './Footer/Footer'
 import MenuRoutes from '../menu/MenuRoutes'
+import VoiceAsistant from '../VoiceAssistant/VoiceAssistant'
 
 const Layout = () => {
   const generalContext = useContext(GeneralContext)
