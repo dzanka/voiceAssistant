@@ -1,5 +1,5 @@
 const Main = () => (
-  <div className="flex items-center justify-center">
+  <div className="flex items-center justify-center gap-[25px]">
     <div className="w-[962px]">
       <h1 className="text-[96px] text-primary">Solving problems. Thousands at a time.</h1>
       <p className="tracking=[5%]">

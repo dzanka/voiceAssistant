@@ -6,8 +6,8 @@ type MenuProps = {
 }
 
 const MenuItem = ({ label, to }: MenuProps) => {
-  const location = useLocation() // Get the current location
-  const isActive = location.pathname === to // Check if the current route matches the `to` prop
+  const location = useLocation()
+  const isActive = location.pathname === to || (to === '/home' && location.pathname === '/')
 
   return (
     <li>
