@@ -35,6 +35,9 @@ module.exports = {
           dark: '#F5F4F5',
           DEFAULT: '#FCFBFC',
         },
+        red: {
+          DEFAULT: '#EF7679'
+        }
       },
     },
   },

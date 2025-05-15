@@ -6,6 +6,7 @@ type ButtonProps = {
 const Button = ({ onClick, label, variant = 'primary' }: ButtonProps) => (
   <button
     onClick={onClick}
+    aria-label={label}
     className={
       variant === 'primary'
         ? 'bg-secondary btn hover:bg-secondary-dark text-black px-[16px] py-[10px] text-[14px]'

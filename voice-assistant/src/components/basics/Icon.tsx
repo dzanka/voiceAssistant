@@ -15,10 +15,7 @@ const Icon = ({ name, className, size = 24 }: IconProps) => {
   if (!IconComponent) console.warn(`Icon "${name}" not found.`)
 
   return (
-    <IconComponent
-      className={`w-[${size}px] h-[${size}px] ${className} shrink-0`}
-      aria-label={name}
-    >
+    <IconComponent className={`${className} shrink-0`} aria-label={name} width={size} height={size}>
       <title>{name}</title>
     </IconComponent>
   )
