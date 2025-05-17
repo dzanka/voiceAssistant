@@ -16,9 +16,10 @@ const Layout = () => {
   return (
     <div className="flex flex-col gap-[25px] pb-[10px]">
       <Header />
-      {isVoiceAssistantOpen ? <VoiceAsistant /> : null}
       <MenuRoutes />
       <Footer />
+
+      {isVoiceAssistantOpen ? <VoiceAsistant /> : null}
     </div>
   )
 }

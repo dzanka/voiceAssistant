@@ -56,12 +56,6 @@ const VoiceAsistant = () => {
       <div className="bg-gradient-to-bl from-nude-neutral to-nude-light w-[280px] h-[280px]">
         <div className="flex h-[76px] p-[24px] justify-between items-center">
           <div className="font-normal text-[12px] tracking-[5%]">Calling Jessica</div>
-          {/* <button
-            onClick={() => handleCloseVoiceAssistant()}
-            className="flex justify-center items-center gap-[10px] rounded-[100px] bg-[#EF7679] w-[28px] h-[28px]"
-          >
-            <Icon name="Call" size={12} className="border-white border-1 rotate-[-135]" />
-          </button> */}
           <IconButton
             onClick={() => handleCloseVoiceAssistant()}
             variant="small"
