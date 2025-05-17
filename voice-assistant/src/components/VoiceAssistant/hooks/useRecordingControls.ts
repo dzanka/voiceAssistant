@@ -6,7 +6,8 @@ type RecordingAction = 'start' | 'stop' | 'pause' | 'resume'
 
 const useRecordingControls = (onRecordingComplete: (blob: Blob | undefined) => void) => {
   const [recordingStatus, setRecordingStatus] = useState<RecordingStatus>('stopped')
-  const { startRecording, stopRecording, togglePauseResume, recordingBlob } = useAudioRecorder()
+  const { startRecording, stopRecording, togglePauseResume, recordingBlob, mediaRecorder } =
+    useAudioRecorder()
 
   const handleRecording = (recordingAction: RecordingAction) => {
     switch (recordingAction) {
@@ -32,7 +33,7 @@ const useRecordingControls = (onRecordingComplete: (blob: Blob | undefined) => v
     }
   }
 
-  return { recordingStatus, handleRecording, recordingBlob }
+  return { recordingStatus, mediaRecorder, handleRecording, recordingBlob }
 }
 
 export default useRecordingControls

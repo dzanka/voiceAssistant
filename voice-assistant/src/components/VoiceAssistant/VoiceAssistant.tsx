@@ -21,7 +21,7 @@ const VoiceAsistant = () => {
     sendMessage(wavBlob)
   }
 
-  const { recordingStatus, handleRecording, recordingBlob } =
+  const { recordingStatus, handleRecording, recordingBlob, mediaRecorder } =
     useRecordingControls(handleRecordingComplete)
 
   if (!generalContext) {
@@ -47,7 +47,11 @@ const VoiceAsistant = () => {
           handleClose={() => handleCloseVoiceAssistant()}
           showList={recordings.length > 0}
         />
-        <RecordingButtons handleRecording={handleRecording} recordingStatus={recordingStatus} />
+        <RecordingButtons
+          handleRecording={handleRecording}
+          recordingStatus={recordingStatus}
+          mediaRecorder={mediaRecorder}
+        />
         <Feedback />
       </div>
     </Modal>
