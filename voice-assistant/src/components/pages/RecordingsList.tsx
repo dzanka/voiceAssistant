@@ -12,6 +12,7 @@ const RecordingsList = () => {
   // TODO: use custom implementation for audio player
   return (
     <>
+      <h1>History of your last voice assistant call</h1>
       {recordings.length > 0 ? (
         recordings.map((recording, key) => {
           const url = URL.createObjectURL(recording.recording)
