@@ -15,7 +15,7 @@ const VoiceAssistantHeader = ({ handleClose, showList }: VoiceAssistantHeaderPro
   }
 
   return (
-    <div className="flex h-[76px] p-[24px] justify-between items-center">
+    <div className="flex h-[76px] p-[24px] justify-between items-center text-primary">
       <div className="font-normal text-[12px] tracking-[5%]">Calling Jessica</div>
       <div className="flex jusitfy-end items-center gap-[10px]">
         {showList && (

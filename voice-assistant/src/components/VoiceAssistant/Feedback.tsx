@@ -14,6 +14,7 @@ const Feedback = () => {
         onClick={() => {
           setSatisfied(satisfied + 1)
         }}
+        bgColor="bg-transparent"
       />
     </div>
   )

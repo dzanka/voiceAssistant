@@ -20,11 +20,13 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  color: #1F1B20
 }
 
 p {
   font-family: 'Gilroy', sans-serif !important;
   font-weight: 600;
+  color: #1F1B20
 }
 
 @tailwind base;

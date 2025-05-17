@@ -15,7 +15,7 @@ const MenuItem = ({ label, to }: MenuProps) => {
         to={to}
         className={`${
           isActive ? 'border-b-2 border-secondary' : ''
-        } hover:text-primary font-medium px-4 py-2 text-[14px]`}
+        } hover:text-primary text-primary text-medium px-4 py-2 text-[14px]`}
         aria-label={label}
         title={label}
       >
