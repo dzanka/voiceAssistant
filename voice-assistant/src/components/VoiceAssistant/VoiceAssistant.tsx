@@ -7,7 +7,6 @@ import { GeneralContext } from '../../context/GeneralContext'
 import IconButton from '../basics/IconButton'
 import Feedback from './Feedback'
 import VoiceAssistantHeader from './VoiceAssistantHeader'
-import WaveSurfer from 'wavesurfer.js'
 
 type RecordingStatus = 'recording' | 'stopped' | 'playing' | 'paused'
 type RecordingAction = 'start' | 'stop' | 'pause' | 'resume'
@@ -17,29 +16,6 @@ const VoiceAsistant = () => {
   const [recordingStatus, setRecordingStatus] = useState<RecordingStatus>('stopped')
   const generalContext = useContext(GeneralContext)
   const audioRef = useRef<HTMLAudioElement | null>(null)
-  const waveSurferRef = useRef<WaveSurfer | null>(null)
-
-  useEffect(() => {
-    // Initialize Wavesurfer
-    waveSurferRef.current = WaveSurfer.create({
-      container: '#waveform', // The container where the waveform will be rendered
-      waveColor: '#8B268D', // Color of the waveform
-      progressColor: '#383351', // Color of the progress bar
-      cursorColor: '#4F1650', // Color of the cursor
-      height: 100, // Height of the waveform
-    })
-
-    // Load the test WAV file
-    waveSurferRef.current.load('test.wav')
-
-    // Cleanup Wavesurfer instance on component unmount
-    return () => {
-      if (waveSurferRef.current) {
-        waveSurferRef.current.destroy()
-        waveSurferRef.current = null
-      }
-    }
-  }, [])
 
   if (!generalContext) {
     throw new Error('GeneralContext must be used within a GeneralProvider')
@@ -162,7 +138,6 @@ const VoiceAsistant = () => {
             />
           )}
         </div>
-        <div id="waveform" className="w-full"></div>
         {/* <Player /> */}
         <Feedback />
       </div>
