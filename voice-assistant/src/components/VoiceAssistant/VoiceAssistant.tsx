@@ -1,7 +1,6 @@
 import useVoiceAssistantWebsocket from './hooks/useVoiceAssistantWebsocket'
-import { convertToWav } from './utils'
 import Modal from '../basics/Modal'
-import { useCallback, useContext, useRef } from 'react'
+import { useContext, useRef } from 'react'
 import { GeneralContext } from '../../context/GeneralContext'
 import Feedback from './Feedback'
 import useRecordingControls from './hooks/useRecordingControls'
@@ -20,19 +19,8 @@ const VoiceAsistant = () => {
   const { setIsVoiceAssistantOpen, addRecording, recordings } = generalContext
   const { sendMessage } = useVoiceAssistantWebsocket(addRecording, audioRef)
 
-  const handleRecordingComplete = useCallback(
-    (blob: Blob | undefined) => {
-      console.log('Recording complete:', blob)
-      if (!blob) return
-      const wavBlob = convertToWav(blob)
-      addRecording(wavBlob, 'user')
-      sendMessage(wavBlob)
-    },
-    [addRecording, sendMessage],
-  )
-
   const { recordingStatus, handleRecording, recordingBlob, mediaRecorder } =
-    useRecordingControls(handleRecordingComplete)
+    useRecordingControls(audioRef)
 
   useProcessRecordingBlob(recordingBlob, recordingStatus, addRecording, sendMessage)
 

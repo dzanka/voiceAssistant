@@ -4,11 +4,11 @@ import { useAudioRecorder } from 'react-audio-voice-recorder'
 type RecordingStatus = 'recording' | 'stopped' | 'playing' | 'paused'
 type RecordingAction = 'start' | 'stop' | 'pause' | 'resume'
 
-const useRecordingControls = (onRecordingComplete: (blob: Blob | undefined) => void) => {
+const useRecordingControls = (audioRef: React.RefObject<HTMLAudioElement | null>) => {
   const [recordingStatus, setRecordingStatus] = useState<RecordingStatus>('stopped')
   const silenceStartRef = useRef<number | null>(null)
-  const audioContextRef = useRef<AudioContext | null>(null) // Store AudioContext reference
-  const analyserRef = useRef<AnalyserNode | null>(null) // Store AnalyserNode reference
+  const audioContextRef = useRef<AudioContext | null>(null)
+  const analyserRef = useRef<AnalyserNode | null>(null)
   const dataArrayRef = useRef<Uint8Array | null>(null)
 
   const recordingStatusRef = useRef(recordingStatus)
@@ -39,34 +39,29 @@ const useRecordingControls = (onRecordingComplete: (blob: Blob | undefined) => v
 
     analyser.getByteTimeDomainData(dataArray)
     const isSilentNow = dataArray.every((value) => Math.abs(value - 128) < SilenceThreshold)
-    // setIsSilent(isSilentNow)
 
     if (isSilentNow) {
       if (silenceStartRef.current === null) {
         silenceStartRef.current = performance.now()
       }
       const silenceLength = performance.now() - (silenceStartRef.current || 0)
-      // setSilenceDuration(silenceLength)
 
       if (
         silenceLength > MaxSilenceDuration &&
         recordingTimeRef.current > MinRecordingDuration &&
         recordingStatusRef.current === 'recording'
       ) {
-        console.log('Stop recording', recordingBlobRef.current)
         stopRecording()
         setRecordingStatus('stopped')
-        onRecordingComplete(recordingBlobRef.current)
       }
     } else {
       silenceStartRef.current = null
-      // setSilenceDuration(0)
     }
 
     if (recordingStatusRef.current === 'recording') {
       requestAnimationFrame(checkSilence)
     }
-  }, [onRecordingComplete, stopRecording])
+  }, [stopRecording])
 
   useEffect(() => {
     if (mediaRecorder) {
@@ -101,6 +96,7 @@ const useRecordingControls = (onRecordingComplete: (blob: Blob | undefined) => v
   const handleRecording = (recordingAction: RecordingAction) => {
     switch (recordingAction) {
       case 'start':
+        audioRef.current?.pause()
         startRecording()
         setRecordingStatus('recording')
         break
@@ -123,8 +119,6 @@ const useRecordingControls = (onRecordingComplete: (blob: Blob | undefined) => v
           analyserRef.current.disconnect()
           analyserRef.current = null
         }
-
-        if (recordingStatus === 'recording') onRecordingComplete(recordingBlob)
         break
       default:
         setRecordingStatus('stopped')

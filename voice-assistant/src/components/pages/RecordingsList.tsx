@@ -11,16 +11,21 @@ const RecordingsList = () => {
 
   // TODO: use custom implementation for audio player
   return (
-    <div className="flex flex-col gap-4 p-4">
+    <div className="flex flex-col p-4">
       <h1>History of your last voice chat</h1>
       {recordings.length > 0 ? (
         recordings.map((recording, key) => {
           const url = URL.createObjectURL(recording.recording)
 
           return (
-            <audio key={key} controls>
-              <source src={url} type="audio/wav" />
-            </audio>
+            <div
+              key={key}
+              className={`flex justify-center p-3 rounded-[12px] ${recording.entity === 'assistant' && 'bg-secondary'}`}
+            >
+              <audio controls>
+                <source src={url} type="audio/wav" />
+              </audio>
+            </div>
           )
         })
       ) : (

@@ -16,17 +16,9 @@ const useVoiceAssistantWebsocket = (
     addRecording(lastMessage.data, 'assistant')
     const blobUrl = URL.createObjectURL(lastMessage.data)
     audioRef.current = new Audio(blobUrl)
-    audioRef.current
-      .play()
-      .then(() => {
-        console.log('Audio playback started successfully')
-      })
-      .then(() => {
-        console.log('Audio playback finished successfully')
-      })
-      .catch((error) => {
-        console.error('Error playing audio:', error)
-      })
+    audioRef.current.play().catch((error) => {
+      console.error('Error playing audio:', error)
+    })
   }, [lastMessage, addRecording, audioRef])
 
   return { sendMessage, lastMessage, audioRef }
