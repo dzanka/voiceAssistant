@@ -5,6 +5,7 @@ import Modal from '../basics/Modal'
 import { useContext, useEffect, useState } from 'react'
 import { GeneralContext } from '../../context/GeneralContext'
 import IconButton from '../basics/IconButton'
+import Feedback from './Feedback'
 
 type RecordingStatus = 'recording' | 'stopped' | 'playing' | 'paused'
 type RecordingAction = 'start' | 'stop' | 'pause' | 'resume'
@@ -92,7 +93,7 @@ const VoiceAsistant = () => {
 
   return (
     <Modal>
-      <div className="bg-gradient-to-bl from-nude-neutral to-nude-light w-[280px] h-[280px]">
+      <div className="flex flex-col justify-between bg-gradient-to-bl from-nude-neutral to-nude-light w-[280px] h-[280px]">
         <div className="flex h-[76px] p-[24px] justify-between items-center">
           <div className="font-normal text-[12px] tracking-[5%]">Calling Jessica</div>
           <IconButton
@@ -100,9 +101,10 @@ const VoiceAsistant = () => {
             variant="small"
             label="Ukončiť asistenta"
             iconName="Call"
+            bgColor="bg-red"
           />
         </div>
-        <div className="flex justify-center gap-4 pt-[39px]">
+        <div className="flex justify-center gap-4">
           {recordingStatus === 'stopped' && (
             <IconButton
               onClick={() => handleRecording('start')}
@@ -137,6 +139,7 @@ const VoiceAsistant = () => {
           )}
         </div>
         {/* <Player /> */}
+        <Feedback />
       </div>
     </Modal>
   )
