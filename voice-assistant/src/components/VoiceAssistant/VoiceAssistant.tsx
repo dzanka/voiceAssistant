@@ -2,56 +2,95 @@ import { useAudioRecorder } from 'react-audio-voice-recorder'
 import useVoiceAssistantWebsocket from './useVoiceAssistantWebsocket'
 import { convertToWav } from './utils'
 import Modal from '../basics/Modal'
-import { useContext } from 'react'
+import { useContext, useEffect, useState } from 'react'
 import { GeneralContext } from '../../context/GeneralContext'
 import IconButton from '../basics/IconButton'
 
+type RecordingStatus = 'recording' | 'stopped' | 'playing' | 'paused'
+type RecordingAction = 'start' | 'stop' | 'pause' | 'resume'
+
 const VoiceAsistant = () => {
   const { sendMessage, lastMessage } = useVoiceAssistantWebsocket()
+  const [recordingStatus, setRecordingStatus] = useState<RecordingStatus>('stopped')
   const generalContext = useContext(GeneralContext)
   if (!generalContext) {
     throw new Error('GeneralContext must be used within a GeneralProvider')
   }
 
-  const { setIsVoiceAssistantOpen } = generalContext
+  const { setIsVoiceAssistantOpen, addRecording, recordings } = generalContext
 
   const recorderControls = useAudioRecorder()
-  const addAudioElement = (blob: Blob) => {
-    const url = URL.createObjectURL(blob)
-    const audio = document.createElement('audio')
-    audio.src = url
-    audio.controls = true
-    document.body.appendChild(audio)
-  }
 
-  const handleRecordingComplete = (blob: Blob) => {
+  useEffect(() => {
+    console.log('recordings', recordings)
+  }, [recordings])
+
+  const handleRecordingComplete = (blob: Blob | undefined) => {
+    console.log('blob', blob)
+    if (!blob) return
     const wavBlob = convertToWav(blob)
-    addAudioElement(wavBlob)
+    addRecording(wavBlob, 'user')
     sendMessage(wavBlob)
   }
 
+  const handleRecording = (recordingAction: RecordingAction) => {
+    switch (recordingAction) {
+      case 'start':
+        recorderControls.startRecording()
+        setRecordingStatus('recording')
+        break
+      case 'pause':
+        recorderControls.togglePauseResume()
+        setRecordingStatus('paused')
+        break
+      case 'resume':
+        recorderControls.togglePauseResume()
+        setRecordingStatus('recording')
+        break
+      case 'stop':
+        recorderControls.stopRecording()
+        setRecordingStatus('stopped')
+        handleRecordingComplete(recorderControls.recordingBlob)
+        break
+      default:
+        setRecordingStatus('stopped')
+    }
+  }
+
+  useEffect(() => {
+    console.log('blob', recorderControls.recordingBlob)
+    if (recordingStatus === 'stopped' && recorderControls.recordingBlob) {
+      const wavBlob = convertToWav(recorderControls.recordingBlob)
+      addRecording(wavBlob, 'user')
+      sendMessage(wavBlob)
+    }
+  }, [recorderControls.recordingBlob, recordingStatus, addRecording, sendMessage])
+
   const handleCloseVoiceAssistant = () => {
     setIsVoiceAssistantOpen(false)
+    handleRecording('stop')
   }
-  // useEffect(() => {
-  //   if (!lastMessage) return
-  //   const audio = document.createElement('audio')
-  //   const url = URL.createObjectURL(lastMessage.data)
-  //   audio.src = url
-  //   audio.controls = true
-  //   document.body.appendChild(audio)
-  //   audio.play()
-  // }, [lastMessage])
+
+  useEffect(() => {
+    console.log('lastMessage', lastMessage)
+    if (!lastMessage) return
+    addRecording(lastMessage.data, 'assistant')
+    const blobUrl = URL.createObjectURL(lastMessage.data)
+    const audio = new Audio(blobUrl)
+    audio
+      .play()
+      .then(() => {
+        console.log('Audio playback started successfully')
+      })
+      .then(() => {
+        console.log('Audio playback finished successfully')
+      })
+      .catch((error) => {
+        console.error('Error playing audio:', error)
+      })
+  }, [lastMessage, addRecording])
 
   return (
-    // <div>
-    //   <AudioRecorder
-    //     onRecordingComplete={(blob) => handleRecordingComplete(blob)}
-    //     recorderControls={recorderControls}
-    //   />
-    //   <Player />
-    //   <button onClick={recorderControls.stopRecording}>Stop recording</button>
-    // </div>
     <Modal>
       <div className="bg-gradient-to-bl from-nude-neutral to-nude-light w-[280px] h-[280px]">
         <div className="flex h-[76px] p-[24px] justify-between items-center">
@@ -59,18 +98,45 @@ const VoiceAsistant = () => {
           <IconButton
             onClick={() => handleCloseVoiceAssistant()}
             variant="small"
-            label="Ukončiť hovor"
+            label="Ukončiť asistenta"
             iconName="Call"
           />
         </div>
-        <div className="pt-[39px] pl-[115px]">
-          <IconButton
-            onClick={() => console.log('recording')}
-            variant="large"
-            label="Začať hovor"
-            iconName="Waveform"
-          />
+        <div className="flex justify-center gap-4 pt-[39px]">
+          {recordingStatus === 'stopped' && (
+            <IconButton
+              onClick={() => handleRecording('start')}
+              variant="large"
+              label="Začať hovor"
+              iconName="Waveform"
+            />
+          )}
+          {recordingStatus === 'paused' && (
+            <IconButton
+              onClick={() => handleRecording('resume')}
+              variant="large"
+              label="Pokračovať v hovore"
+              iconName="Waveform"
+            />
+          )}
+          {recordingStatus === 'recording' && (
+            <IconButton
+              onClick={() => handleRecording('pause')}
+              variant="large"
+              label="Zastaviť hovor"
+              iconName={recordingStatus === 'recording' ? 'PauseIcon' : 'Waveform'}
+            />
+          )}
+          {(recordingStatus === 'recording' || recordingStatus === 'paused') && (
+            <IconButton
+              onClick={() => handleRecording('stop')}
+              variant="large"
+              label="Ukončiť hovor"
+              iconName="StopIcon"
+            />
+          )}
         </div>
+        {/* <Player /> */}
       </div>
     </Modal>
   )

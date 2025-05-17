@@ -9,10 +9,11 @@ const Header = () => {
     throw new Error('GeneralContext must be used within a GeneralProvider')
   }
 
-  const { isVoiceAssistantOpen, setIsVoiceAssistantOpen } = generalContext
+  const { isVoiceAssistantOpen, setIsVoiceAssistantOpen, setRecordings } = generalContext
 
   const handleToggleVoiceAssistant = () => {
     setIsVoiceAssistantOpen(!isVoiceAssistantOpen)
+    setRecordings([])
   }
 
   return (
