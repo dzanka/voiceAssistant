@@ -20,7 +20,7 @@ const RecordingsList = () => {
           return (
             <div
               key={key}
-              className={`flex justify-center p-3 rounded-[12px] ${recording.entity === 'assistant' && 'bg-secondary'}`}
+              className={`flex justify-center p-3 ${recording.entity === 'assistant' ? 'bg-secondary' : 'bg-nude-dark'}`}
             >
               <audio controls>
                 <source src={url} type="audio/wav" />

@@ -4,6 +4,7 @@ import { useAudioRecorder } from 'react-audio-voice-recorder'
 type RecordingStatus = 'recording' | 'stopped' | 'playing' | 'paused'
 type RecordingAction = 'start' | 'stop' | 'pause' | 'resume'
 
+// TODO: refactor this to separate SilenceAnalyzer
 const useRecordingControls = (audioRef: React.RefObject<HTMLAudioElement | null>) => {
   const [recordingStatus, setRecordingStatus] = useState<RecordingStatus>('stopped')
   const silenceStartRef = useRef<number | null>(null)
