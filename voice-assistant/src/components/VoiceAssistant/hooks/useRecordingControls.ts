@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { useAudioRecorder } from 'react-audio-voice-recorder'
 
-type RecordingStatus = 'recording' | 'stopped' | 'playing' | 'paused'
+export type RecordingStatus = 'recording' | 'stopped' | 'playing' | 'paused'
 type RecordingAction = 'start' | 'stop' | 'pause' | 'resume'
 
 const useRecordingControls = (audioRef: React.RefObject<HTMLAudioElement | null>) => {
