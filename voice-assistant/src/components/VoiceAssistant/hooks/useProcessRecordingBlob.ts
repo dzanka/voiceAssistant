@@ -10,7 +10,6 @@ const useProcessRecordingBlob = (
   useEffect(() => {
     if (recordingStatus === 'stopped' && recordingBlob) {
       try {
-        console.log('Processing recording blob:', recordingBlob)
         const wavBlob = convertToWav(recordingBlob)
         addRecording(wavBlob, 'user')
         sendMessage(wavBlob)

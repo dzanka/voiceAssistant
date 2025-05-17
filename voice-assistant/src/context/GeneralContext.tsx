@@ -23,6 +23,7 @@ const GeneralProvider = ({ children }: GeneralProviderProps) => {
   const [recordings, setRecordings] = useState<RecordingItem[]>([])
 
   const addRecording = useCallback((newRecording: Blob, entity: RecordingEntity) => {
+    console.log('Adding new recording:', newRecording, entity)
     setRecordings((prevState) => [...prevState, { recording: newRecording, entity }])
   }, [])
 

@@ -12,8 +12,6 @@ const RecordingButtons = ({
   handleRecording,
   mediaRecorder,
 }: RecordingButtonsProps) => {
-  console.log('mediaRecorder', mediaRecorder)
-
   return (
     <div className="flex flex-col">
       {mediaRecorder && (
