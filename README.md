@@ -1,25 +1,28 @@
 # Voice Assistent Application
 
-This project is part of the React Voice Assistant assignment with [https://github.com/janMoudryD/assignment-demo-be/blob/main/README.md] (websocket BE) 
+This project is part of the React Voice Assistant assignment with [websocket BE](https://github.com/janMoudryD/assignment-demo-be/blob/main/README.md)
 
 ## Basic setup
-`npm install`
-`npm run start`
+```
+npm install
+npm run start
+```
 
 This should start running React app.
 
-Run [https://github.com/janMoudryD/assignment-demo-be/blob/main/README.md](suggested example BE repo) to have some responses from BE
+Run [suggested example BE repo](https://github.com/janMoudryD/assignment-demo-be/blob/main/README.md) to have some responses from BE
 Landing page is just a template, main functionality is **Call Jessica** voice assistent. It has following features:
 - automatically stops recording and sending to the BE when there is silence
 - it is possible to display list of recordings and replies
 - you can feedback with smiley rate button
 
 ## Tech stack
-- `react-audio-voice-recorder` for voice recording
-- `react-audio-visualize` for visualizing sound waves during recording
+- **react-audio-voice-recorder** for voice recording
+- **react-audio-visualize** for visualizing sound waves during recording
 - Silence analysis is custom made
 - Tailwind for styling
 - Context API for state handling
+- Websockets for sending records and getting responses from BE
 
 ## Suggested Improvements
 
