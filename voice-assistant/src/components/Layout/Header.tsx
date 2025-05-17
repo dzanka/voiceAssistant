@@ -1,7 +1,7 @@
 import { useContext } from 'react'
 import { GeneralContext } from '../../context/GeneralContext'
 import Button from '../basics/Button'
-import Menu from '../menu/Menu'
+import Menu from '../Menu/Menu'
 
 const Header = () => {
   const generalContext = useContext(GeneralContext)
@@ -11,7 +11,7 @@ const Header = () => {
 
   const { isVoiceAssistantOpen, setIsVoiceAssistantOpen, setRecordings } = generalContext
 
-  const handleToggleVoiceAssistant = () => {
+  const handleOpenVoiceAssistant = () => {
     setIsVoiceAssistantOpen(!isVoiceAssistantOpen)
     setRecordings([])
   }
@@ -20,11 +20,7 @@ const Header = () => {
     <div className="flex justify-center items-center h-[186px]">
       <div className="flex justify-between w-[962px] items-center">
         <Menu />
-        <Button
-          variant="primary"
-          onClick={() => handleToggleVoiceAssistant()}
-          label="Call Jessica"
-        />
+        <Button variant="primary" onClick={() => handleOpenVoiceAssistant()} label="Call Jessica" />
       </div>
     </div>
   )

@@ -1,14 +1,16 @@
 import { Route, Routes } from 'react-router-dom'
-import Main from '../Layout/Main'
+import Template from '../pages/Template'
+import RecordingsList from '../pages/RecordingsList'
 
 const MenuRoutes = () => (
   <Routes>
-    <Route path="/" element={<Main />} />
-    <Route path="/home" element={<Main />} />
-    <Route path="/products" element={<Main />} />
-    <Route path="/organization" element={<Main />} />
-    <Route path="/account" element={<Main />} />
-    <Route path="/help" element={<Main />} />
+    <Route path="/" element={<Template />} />
+    <Route path="/home" element={<Template />} />
+    <Route path="/products" element={<Template />} />
+    <Route path="/organization" element={<Template />} />
+    <Route path="/account" element={<Template />} />
+    <Route path="/help" element={<Template />} />
+    <Route path="/recordings-list" element={<RecordingsList />} />
   </Routes>
 )
 

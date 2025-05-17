@@ -2,10 +2,11 @@ import { useAudioRecorder } from 'react-audio-voice-recorder'
 import useVoiceAssistantWebsocket from './useVoiceAssistantWebsocket'
 import { convertToWav } from './utils'
 import Modal from '../basics/Modal'
-import { useContext, useEffect, useState } from 'react'
+import { useContext, useEffect, useRef, useState } from 'react'
 import { GeneralContext } from '../../context/GeneralContext'
 import IconButton from '../basics/IconButton'
 import Feedback from './Feedback'
+import VoiceAssistantHeader from './VoiceAssistantHeader'
 
 type RecordingStatus = 'recording' | 'stopped' | 'playing' | 'paused'
 type RecordingAction = 'start' | 'stop' | 'pause' | 'resume'
@@ -14,6 +15,8 @@ const VoiceAsistant = () => {
   const { sendMessage, lastMessage } = useVoiceAssistantWebsocket()
   const [recordingStatus, setRecordingStatus] = useState<RecordingStatus>('stopped')
   const generalContext = useContext(GeneralContext)
+  const audioRef = useRef<HTMLAudioElement | null>(null)
+
   if (!generalContext) {
     throw new Error('GeneralContext must be used within a GeneralProvider')
   }
@@ -51,7 +54,7 @@ const VoiceAsistant = () => {
       case 'stop':
         recorderControls.stopRecording()
         setRecordingStatus('stopped')
-        handleRecordingComplete(recorderControls.recordingBlob)
+        if (recordingStatus === 'recording') handleRecordingComplete(recorderControls.recordingBlob)
         break
       default:
         setRecordingStatus('stopped')
@@ -68,8 +71,10 @@ const VoiceAsistant = () => {
   }, [recorderControls.recordingBlob, recordingStatus, addRecording, sendMessage])
 
   const handleCloseVoiceAssistant = () => {
+    console.log('close')
     setIsVoiceAssistantOpen(false)
     handleRecording('stop')
+    audioRef.current?.pause()
   }
 
   useEffect(() => {
@@ -77,8 +82,9 @@ const VoiceAsistant = () => {
     if (!lastMessage) return
     addRecording(lastMessage.data, 'assistant')
     const blobUrl = URL.createObjectURL(lastMessage.data)
-    const audio = new Audio(blobUrl)
-    audio
+    // const audio = new Audio(blobUrl)
+    audioRef.current = new Audio(blobUrl)
+    audioRef.current
       .play()
       .then(() => {
         console.log('Audio playback started successfully')
@@ -94,16 +100,10 @@ const VoiceAsistant = () => {
   return (
     <Modal>
       <div className="flex flex-col justify-between bg-gradient-to-bl from-nude-neutral to-nude-light w-[280px] h-[280px]">
-        <div className="flex h-[76px] p-[24px] justify-between items-center">
-          <div className="font-normal text-[12px] tracking-[5%]">Calling Jessica</div>
-          <IconButton
-            onClick={() => handleCloseVoiceAssistant()}
-            variant="small"
-            label="Ukončiť asistenta"
-            iconName="Call"
-            bgColor="bg-red"
-          />
-        </div>
+        <VoiceAssistantHeader
+          handleClose={() => handleCloseVoiceAssistant()}
+          showList={recordings.length > 0}
+        />
         <div className="flex justify-center gap-4">
           {recordingStatus === 'stopped' && (
             <IconButton
